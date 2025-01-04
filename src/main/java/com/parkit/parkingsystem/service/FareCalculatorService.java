@@ -40,7 +40,7 @@ public class FareCalculatorService {
         long inTime = ticket.getInTime().getTime(); //long pour gérer les valeur numérique importante
         long outTime = ticket.getOutTime().getTime();
         double durationInHours = (double) (outTime - inTime) / (60 * 60 * 1000); // divise par la durée d'une heure en millisecondes
-                                                                                 // double pour éviter el troncage 
+                                                                                 // double pour éviter le troncage 
         if (durationInHours <= 0.5) {
         ticket.setPrice(0.0); // Parking gratuit
         return;
@@ -57,6 +57,11 @@ public class FareCalculatorService {
             }
             default:
                 throw new IllegalArgumentException("Unknown Parking Type");
+        }
+
+        double basePrice = 0.0;
+        if (ticket.isDiscount(true)) {
+            basePrice = basePrice * 0.95; // Appliquer la réduction de 5%
         }
     }
 }

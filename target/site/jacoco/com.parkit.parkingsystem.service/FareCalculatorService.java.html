@@ -32,7 +32,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 <span class="fc" id="L33">public class FareCalculatorService {</span>
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, boolean discount){
 <span class="pc bpc" id="L36" title="1 of 4 branches missed.">        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){</span>
 <span class="fc" id="L37">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
         }
@@ -40,7 +40,7 @@ import com.parkit.parkingsystem.model.Ticket;
 <span class="fc" id="L40">        long inTime = ticket.getInTime().getTime(); //long pour gérer les valeur numérique importante</span>
 <span class="fc" id="L41">        long outTime = ticket.getOutTime().getTime();</span>
 <span class="fc" id="L42">        double durationInHours = (double) (outTime - inTime) / (60 * 60 * 1000); // divise par la durée d'une heure en millisecondes</span>
-                                                                                 // double pour éviter el troncage 
+                                                                                 // double pour éviter le troncage 
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        if (durationInHours &lt;= 0.5) {</span>
 <span class="fc" id="L45">        ticket.setPrice(0.0); // Parking gratuit</span>
 <span class="fc" id="L46">        return;</span>
@@ -58,6 +58,11 @@ import com.parkit.parkingsystem.model.Ticket;
             default:
 <span class="nc" id="L59">                throw new IllegalArgumentException(&quot;Unknown Parking Type&quot;);</span>
         }
-<span class="fc" id="L61">    }</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (discount) {</span>
+<span class="fc" id="L63">            double discountedPrice = ticket.getPrice() * 0.95; // Appliquer 5% de réduction</span>
+<span class="fc" id="L64">            ticket.setPrice(discountedPrice); // Mettre à jour le prix du ticket</span>
+        }
+<span class="fc" id="L66">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

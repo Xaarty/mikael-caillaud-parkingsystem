@@ -103,7 +103,7 @@ public class ParkingService {
 <span class="fc" id="L103">            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);</span>
 <span class="fc" id="L104">            Date outTime = new Date();</span>
 <span class="fc" id="L105">            ticket.setOutTime(outTime);</span>
-<span class="fc" id="L106">            fareCalculatorService.calculateFare(ticket);</span>
+<span class="fc" id="L106">            fareCalculatorService.calculateFare(ticket, false);</span>
 <span class="pc bpc" id="L107" title="1 of 2 branches missed.">            if(ticketDAO.updateTicket(ticket)) {</span>
 <span class="fc" id="L108">                ParkingSpot parkingSpot = ticket.getParkingSpot();</span>
 <span class="fc" id="L109">                parkingSpot.setAvailable(true);</span>
@@ -118,4 +118,5 @@ public class ParkingService {
 <span class="fc" id="L118">        }</span>
 <span class="fc" id="L119">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+    
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

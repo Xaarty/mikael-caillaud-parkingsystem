@@ -63,8 +63,8 @@ public class Ticket {
     public void setDiscount(boolean discount) {
         this.discount = discount;
     }
-
-    public boolean isDiscount(boolean discount) {
-        return this.discount = discount;
+    
+    public boolean isDiscount() {
+        return discount;
     }
 }

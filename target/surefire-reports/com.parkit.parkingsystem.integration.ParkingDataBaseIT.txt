@@ -1,13 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.integration.ParkingDataBaseIT
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 2.45 s <<< FAILURE! - in com.parkit.parkingsystem.integration.ParkingDataBaseIT
-testParkingLotExit  Time elapsed: 1.762 s  <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "com.parkit.parkingsystem.model.Ticket.getVehicleRegNumber()" because "ticket" is null
-	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingACar(ParkingDataBaseIT.java:59)
-	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingLotExit(ParkingDataBaseIT.java:64)
-
-testParkingACar  Time elapsed: 0.092 s  <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "com.parkit.parkingsystem.model.Ticket.getVehicleRegNumber()" because "ticket" is null
-	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingACar(ParkingDataBaseIT.java:59)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.396 s - in com.parkit.parkingsystem.integration.ParkingDataBaseIT

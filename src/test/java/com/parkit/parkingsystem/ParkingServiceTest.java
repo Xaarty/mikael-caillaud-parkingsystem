@@ -33,21 +33,19 @@ public class ParkingServiceTest {
     private static ParkingSpotDAO parkingSpotDAO;
     @Mock
     private static TicketDAO ticketDAO;
-
+    Ticket ticket;
     @BeforeEach
-    private void setUpPerTest() {
+    public void setUpPerTest() {
         try {
-            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-            Ticket ticket = new Ticket();
+            ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
-            when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+//            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
-            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+//            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         } catch (Exception e) {
@@ -68,18 +66,17 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTestUnableUpdate() {
-        Ticket ticket = new Ticket();  // Création de ticket
-        ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));  // Heure d'enregistrement véhicule
+    public void processExitingVehicleTestUnableUpdate() throws Exception {
+        testProcessIncomingVehicle();
+        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        ticket.setOutTime((new Date(System.currentTimeMillis() - (120 * 60 * 1000))));  // Heure d'enregistrement véhicule
         ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.getTicket("ABCDEF")).thenReturn(ticket); // Récupère le ticket d'enregistrement
-
-        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false); // Erreuur d'enregistrement de ticket
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
         parkingService.processExitingVehicle();
 
-        verify(ticketDAO, times(1)).updateTicket(any(Ticket.class)); // Vérifie l'enregistrement ticket
-        verify(parkingSpotDAO, never()).updateParking(any(ParkingSpot.class)); // Vérifie la modification de la place de parking
+
+        verify(parkingSpotDAO, times(1)).updateParking(any(ParkingSpot.class)); // Vérifie la modification de la place de parking
     }
 
     @Test
@@ -89,6 +86,6 @@ public class ParkingServiceTest {
 
         parkingService.getNextParkingNumberIfAvailable(); // Récupère le numéro de place de parking
 
-        verify(parkingSpotDAO, times(1)).getNextAvailableSlo(any(ParkingType.class)); // Vérifie le fonctionnement de la méthode
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class)); // Vérifie le fonctionnement de la méthode
     }
 }

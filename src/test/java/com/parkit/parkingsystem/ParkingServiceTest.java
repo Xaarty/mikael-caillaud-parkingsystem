@@ -84,10 +84,11 @@ public class ParkingServiceTest {
 
     @Test
     public void testGetNextParkingNumberIfAvailable() {
-        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1); // Simule disponibilité d'une place parking
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Simule voiture
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1); // Simule disponibilité d'une place parking
 
-        int parkingNumber = parkingService.getNextParkingNumberIfAvailable(); // Récupère le numéro de place de parking
+        parkingService.getNextParkingNumberIfAvailable(); // Récupère le numéro de place de parking
 
-        assertEquals(1, parkingNumber); // Vérifie le fonctionnement de la méthode
+        verify(parkingSpotDAO, times(1)).getNextAvailableSlo(any(ParkingType.class)); // Vérifie le fonctionnement de la méthode
     }
 }

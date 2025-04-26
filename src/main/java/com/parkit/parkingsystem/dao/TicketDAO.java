@@ -19,6 +19,7 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    @SuppressWarnings("finally")
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         try {
@@ -40,6 +41,7 @@ public class TicketDAO {
         }
     }
 
+    @SuppressWarnings("finally")
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -67,6 +69,27 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
             return ticket;
         }
+    }
+
+    public int getNumberTickets(String vehicleRegNumber) {
+        Connection con = null;
+        int numberTickets = 0;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_NUMBER_TICKET);
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+               numberTickets = rs.getInt(1);
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        } catch (Exception ex) {
+            logger.error("Error fetching number of tickets", ex);
+        } finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return numberTickets;
     }
 
     public boolean updateTicket(Ticket ticket) {
